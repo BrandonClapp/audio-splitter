@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "audio-splitter"
+version = "0.1.0"
+description = "Split a guitar solo out of a song into solo and backing MP3s"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "demucs>=4.1.0",
+    "numpy>=2.1",
+    "librosa>=1.0.0",
+    "soundfile>=0.13",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+split-solo = "audio_splitter.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/audio_splitter"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not slow'"
+markers = ["slow: needs the demucs model and/or ffmpeg encoding (deselected by default)"]
